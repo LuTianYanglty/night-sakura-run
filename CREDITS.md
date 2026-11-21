@@ -24,7 +24,10 @@
   （http://creativecommons.org/licenses/by/4.0/）。用 engine-sim 在每 1000 rpm 稳态录制后在 Audacity 里剪辑、均衡。
   来源：https://github.com/stuntrally/stuntrally3 （`data/sounds/engines`，说明见同目录的 `_sounds.txt`，已一并放入）。
   文件未改动；游戏里按转速交叉淡化并变调。
-- 电机声（`ev_lo/mid/hi.wav`）由 `tools/gen_audio.py` 合成。
+- 同一来源、同一许可的另外三套（已放入 `assets/audio/sr3/`，`scripts/sfx.gd` 里登记为 i6 / v8 / v12，目前还没有车在用）：
+  直列六缸 `b-i6r-1…8.wav`、V8 `v8f-1…10.wav`、V12 `v12d-1…10.wav`。
+- 电机声（`ev_lo/mid/hi.wav`）和电车的“运动声浪”两层（`ev_growl.wav` 低频咕噜声、`ev_space.wav` 和声嗡鸣）由
+  `tools/gen_audio.py` 合成。
 
 ## 其余全部内容
 城市、套件与轮毂网格、贴图、拉花、室内背景、其余音效与两段音乐、物理、界面、剧本，
@@ -84,14 +87,24 @@ by what it reflects, the car carrying its own environment, bloom over a filmic t
   controller's modes 0x21 / 0x25 / 0x26. "DualSense" and "PlayStation" are trademarks of Sony Interactive
   Entertainment; this project is not affiliated with Sony.
 
-## Map data being evaluated: PLATEAU Fukuoka
+## 福冈地图（`assets/maps/fukuoka/`，`assets/city/`）
 
-`_map_src/plateau/` (not in the build yet) holds eight CityGML files of central Fukuoka — buildings and roads of the
-standard meshes 50303302 / 50303303 / 50303312 / 50303313 (Tenjin, Nakasu, Hakata) — taken from
-"3D都市モデル（Project PLATEAU）福岡市（2024年度）", Ministry of Land, Infrastructure, Transport and Tourism of
-Japan, https://www.geospatial.jp/ckan/dataset/plateau-40130-fukuoka-shi-2024 . Open data under the PLATEAU site
-policy (CC BY 4.0-compatible terms; attribution: 国土交通省 Project PLATEAU). Only these files were fetched from the
-993 MB archive (by byte range, 5.9 MB).
+- **街道与建筑轮廓**：「3D都市モデル（Project PLATEAU）福岡市（2024年度）」，国土交通省，
+  https://www.geospatial.jp/ckan/dataset/plateau-40130-fukuoka-shi-2024 。PLATEAU 站点政策下的开放数据（与 CC BY 4.0
+  兼容；署名：国土交通省 Project PLATEAU）。只取了标准网格 50303302 / 50303303 / 50303312 / 50303313（天神、中洲、
+  博多）的建筑和道路共 8 个 CityGML 文件（从 993 MB 的压缩包里按字节范围取出 5.9 MB，放在 `_map_src/plateau/`）。
+  `tools/plateau_convert.py` 把它转成游戏用的 `map.json` + `map.bin`：数据里只有道路用地的轮廓和建筑的底面、高度，
+  车道线、人行横道、路缘、人行道、路灯、行道树、招牌和挑战的位置都是转换脚本推出来的，不是实测。
+- **路面、人行道、墙面材质**：**ambientCG**（https://ambientcg.com ，**CC0**）的 Road012A、Road013A、Asphalt033、
+  Concrete034、Concrete046、Concrete008、ManholeCover009，由 `tools/city_textures.py` 缩放并打包成
+  `assets/city/ground_*.dat`、`walls_*.dat`、`manhole_*.dat`。（另外下载了 Facade007–020 和 PavingStones142/152，
+  看过之后没有用：前者是整栋摩天楼的远景贴图，后者是欧洲石板路。原始文件都在 `_assets_src/acg/`。）
+- **行道树**：**Poly Haven** 的 Jacaranda Tree（https://polyhaven.com/a/jacaranda_tree ，作者 Rico Cilliers 等，**CC0**）。
+  原模型约 300 万面，`tools/bake_tree.py` 用 Blender 把它从三个方向烘成颜色 + 镂空 + 法线，`tools/pack_tree.py` 打包成
+  `assets/city/tree_*.dat`，游戏里画在三张交叉的面片上；一部分街道把叶色换成了樱花色。
+- **招牌**（`assets/city/signs.dat`）：`tools/gen_signs.py` 用 Noto Sans CJK（SIL OFL 1.1）画的，文字都是通用的行业
+  或菜名，没有真实的商号。
+- 窗户里的房间、店面、卷帘门是着色器里按视线算出来的（interior mapping），没有用贴图。
 
 ## Not used: `bst_fukuoka`
 
