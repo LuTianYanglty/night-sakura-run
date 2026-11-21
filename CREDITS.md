@@ -107,6 +107,11 @@ by what it reflects, the car carrying its own environment, bloom over a filmic t
 - **招牌**（`assets/city/signs.dat`）：`tools/gen_signs.py` 用 Noto Sans CJK（SIL OFL 1.1）画的，文字都是通用的行业
   或菜名，没有真实的商号。
 - 窗户里的房间、店面、卷帘门是着色器里按视线算出来的（interior mapping），没有用贴图。
+- **行人**：**Quaternius** 的 Animated Human（https://opengameart.org/content/animated-human-low-poly ，**CC0**）。
+  `tools/bake_people.py` 用 Blender 把它的走、跑两个循环（外加一套右手举起撑伞的走）烘成顶点动画贴图：
+  `assets/city/people_pos.dat`、`people_nrm.dat`、`people.json`。原模型是赤脚、单色贴图：脚改成了鞋，衣服、头发、
+  肤色在着色器里按人配色。原始文件在 `_assets_src/people/`。雨伞、垃圾桶、路灯杆是代码里拼的。
+- 行车用的是游戏里已有的两个车模（见上面的“车辆模型”），只是换了车漆。
 
 ## Not used: `bst_fukuoka`
 
