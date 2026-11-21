@@ -19,6 +19,11 @@
   改动后的 `su7.glb` 同样以 CC BY-NC-SA 4.0 提供；因此带着它的构建**只能非商业使用**。
   “Xiaomi”“SU7”是小米的商标，本原型与其无关。
 
+### Roma（`assets/roma.glb`，只在本机，不随网页版发布）
+由用户自己提供的 `2020 Ferrari Roma.blend` 转换（`tools/convert_roma.py`）。文件里没有署名和许可信息；从网格和贴图的命名看，
+它是别人从一款商业赛车游戏里转出来的模型，版权属于原游戏的权利方。因此它只留在这台机器上做学校实验用：
+不提交到公开仓库，不打进网页版。
+
 ## 引擎声（`assets/audio/sr3/`）
 - **Stunt Rally 3** 的水平对置四缸采样 `su-ss-1…8.wav`、`su-oe-1…8.wav`，作者 **CryHam**，许可 **CC BY 4.0**
   （http://creativecommons.org/licenses/by/4.0/）。用 engine-sim 在每 1000 rpm 稳态录制后在 Audacity 里剪辑、均衡。
