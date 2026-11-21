@@ -101,7 +101,9 @@ by what it reflects, the car carrying its own environment, bloom over a filmic t
   看过之后没有用：前者是整栋摩天楼的远景贴图，后者是欧洲石板路。原始文件都在 `_assets_src/acg/`。）
 - **行道树**：**Poly Haven** 的 Jacaranda Tree（https://polyhaven.com/a/jacaranda_tree ，作者 Rico Cilliers 等，**CC0**）。
   原模型约 300 万面，`tools/bake_tree.py` 用 Blender 把它从三个方向烘成颜色 + 镂空 + 法线，`tools/pack_tree.py` 打包成
-  `assets/city/tree_*.dat`，游戏里画在三张交叉的面片上；一部分街道把叶色换成了樱花色。
+  `assets/city/tree_*.dat`，作远景树（三张交叉的面片）。近景树用 `tools/bake_tree_parts.py` 从同一棵树上取出树干
+  （减到 2600 面）和 8 张单团枝叶的图，`tools/pack_tree_parts.py` 打包成 `tree_trunk.dat`、`tree_bark.dat`、
+  `tree_clumps.dat`、`tree_parts.json`。一部分街道把叶色换成了樱花色。
 - **招牌**（`assets/city/signs.dat`）：`tools/gen_signs.py` 用 Noto Sans CJK（SIL OFL 1.1）画的，文字都是通用的行业
   或菜名，没有真实的商号。
 - 窗户里的房间、店面、卷帘门是着色器里按视线算出来的（interior mapping），没有用贴图。
