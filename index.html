@@ -1,6 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+<script id="nsr-parts">
+/* index.pck and index.wasm are stored in pieces (tools/split_web.py): asked for either, the page fetches the
+   pieces and gives the engine one stream, in order. Everything else is fetched as usual. */
+(function(){
+	var P = {"index.pck": ["index.p0.pck", "index.p1.pck", "index.p2.pck", "index.p3.pck"], "index.wasm": ["index.p0.wasm", "index.p1.wasm"]}, V = "3b86810108";
+	var real = window.fetch.bind(window);
+	window.fetch = function(input, init){
+		var url = (typeof input === "string") ? input : ((input && input.url) || "");
+		var clean = url.split("#")[0].split("?")[0];
+		var name = clean.slice(clean.lastIndexOf("/") + 1);
+		var parts = P[name];
+		if (!parts) return real(input, init);
+		var base = clean.slice(0, clean.length - name.length);
+		return Promise.all(parts.map(function(p){ return real(base + p + "?v=" + V); })).then(function(rs){
+			for (var k = 0; k < rs.length; k++) if (!rs[k].ok) return new Response(null, {status: rs[k].status, statusText: rs[k].statusText});
+			var i = 0, reader = null;
+			var body = new ReadableStream({
+				pull: function(ctrl){
+					function step(){
+						if (!reader) {
+							if (i >= rs.length) { ctrl.close(); return Promise.resolve(); }
+							reader = rs[i++].body.getReader();
+						}
+						return reader.read().then(function(x){
+							if (x.done) { reader = null; return step(); }
+							ctrl.enqueue(x.value);
+						});
+					}
+					return step();
+				},
+				cancel: function(){ if (reader) reader.cancel(); }
+			});
+			return new Response(body, {status: 200, headers: {"Content-Type": /\.wasm$/.test(name) ? "application/wasm" : "application/octet-stream"}});
+		});
+	};
+})();
+</script>
+
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
 		<title>夜樱疾走 Night Sakura Run</title>
