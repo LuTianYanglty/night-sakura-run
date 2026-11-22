@@ -5,7 +5,7 @@
 /* index.pck and index.wasm are stored in pieces (tools/split_web.py): asked for either, the page fetches the
    pieces and gives the engine one stream, in order. Everything else is fetched as usual. */
 (function(){
-	var P = {"index.pck": ["index.p0.pck", "index.p1.pck", "index.p2.pck", "index.p3.pck"], "index.wasm": ["index.p0.wasm", "index.p1.wasm"]}, V = "3b86810108";
+	var P = {"index.pck": ["index.p0.pck", "index.p1.pck", "index.p2.pck", "index.p3.pck"], "index.wasm": ["index.p0.wasm", "index.p1.wasm"]}, V = "d3d32d98c7";
 	var real = window.fetch.bind(window);
 	window.fetch = function(input, init){
 		var url = (typeof input === "string") ? input : ((input && input.url) || "");
@@ -149,7 +149,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":75900516,"index.wasm":37685705},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":75902036,"index.wasm":37685705},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
